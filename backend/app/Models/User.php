@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -25,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
     /**
@@ -49,5 +52,15 @@ class User extends Authenticatable
             'password' => 'hashed',
             'deleted_at' => 'datetime',
         ];
+    }
+    //hacer referencial al model tipo y del user al 
+    public function role(): BelongsTo{
+        return $this -> belongsTo(Role::class,'role_id','id');
+    }
+    public function books():HasMany {
+        return $this -> hasMany(Book::class, 'user_id', 'id');
+    }
+    public function favorites(): HasMany {
+        return $this->hasMany(Favorite::class, 'user_id', 'id');
     }
 }
