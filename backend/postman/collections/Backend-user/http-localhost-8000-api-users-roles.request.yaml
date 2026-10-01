@@ -1,0 +1,12 @@
+$kind: http-request
+name: http://localhost:8000/api/users/roles
+description: ""
+url: http://localhost:8000/api/users/roles
+method: GET
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: 2|lm1jOiIaaGDJ5InKPZcjfP3Nx8svr4buX7J7wQ3U5fd165f3
+order: 4355928193869089

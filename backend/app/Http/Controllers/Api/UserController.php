@@ -54,19 +54,24 @@ class UserController extends BaseController{
         return $this -> success($user,'Usuario encontrado y obtenido exitosamente');
     }
     public function update(Request $request, int $id){
+        if ($request->user()->role_id !== '01') {
+            if ($request->user()->id !== $id) {
+                return $this->error([], "Acceso denegado, permisos insuficientes", 403);
+            }
+        }
         if($request -> user() -> role_id !== '01'){
             $validated = $request -> validate([
                 'name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|string|email|max:255|unique:users,email,'.$id,
-                'password' => 'someimes|string|min:8',
+                'password' => 'sometimes|string|min:8',
             ]);
         }
         else{
             $validated = $request -> validate([
                 'name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|string|email|max:255|unique:users,email,'.$id,
-                'password' => 'someimes|string|min:8',
-                'role_id' => 'sometimes|string|size:2|exists:role,id'
+                'password' => 'sometimes|string|min:8',
+                'role_id' => 'sometimes|string|size:2|exists:roles,id'
             ]);
         }
         $user= $this -> userService -> updateUser($id,$validated);

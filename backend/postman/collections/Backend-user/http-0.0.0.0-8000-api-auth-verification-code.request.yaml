@@ -1,0 +1,15 @@
+$kind: http-request
+name: http://0.0.0.0:8000/api/auth/verification-code
+description: ""
+url: http://0.0.0.0:8000/api/auth/verification-code
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+        "email":"lunamartinezfatimaneftali@gmail.com",
+        "code":"694924"
+    }
+order: 2940050814955926

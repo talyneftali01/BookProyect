@@ -72,6 +72,10 @@ class BookController extends BaseController
 
     public function calificar(Request $request, int $id)
     {
+        $bookExists= DB::table('books')->where('id', $id)->whereNull('deleted_at')->exists();
+        if (!$bookExists) {
+            return $this->error([], 'Libro no encontrado', 404);
+        }
         $validated = $request->validate([
             'stars' => 'required|integer|between:1,5'
         ]);
@@ -82,12 +86,20 @@ class BookController extends BaseController
     
     public function favorite(Request $request, int $id)
     {
+        $bookExists= DB::table('books')->where('id', $id)->whereNull('deleted_at')->exists();
+        if (!$bookExists) {
+            return $this->error([], 'Libro no encontrado', 404);
+        }
         $res = $this->bookService->favorite($id, $request->user()->id);
         return $this->success(['en_favoritos' => $res['en_favoritos']], $res['message']);
     }
 
     public function report(Request $request, int $id)
     {
+        $bookExists= DB::table('books')->where('id', $id)->whereNull('deleted_at')->exists();
+        if (!$bookExists) {
+            return $this->error([], 'Libro no encontrado', 404);
+        }
         $validated = $request->validate([
             'type_report' => 'required|integer|exists:report_type,id' 
         ]);
